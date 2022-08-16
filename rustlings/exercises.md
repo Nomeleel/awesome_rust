@@ -26,6 +26,46 @@ let messages = [
 将其理解为空安全语言中的Nullable\<T\>不过分吧.
 只是你叫Some和None我是没有想到的🤔
 
+## vecs
+
+从最开始接触编程的时候就遇到了，Array和Vector，一度认为这两个结构长度可变用Vector不可变用Array。后来写C#和Java的时候没有Vector了，而是以List代替了。再后来就是写Js、Dart，对于之前的语言数据结构少了很多，这时候只有List了，世界顿时清净了很多，当然也会提供List的不可变长度的构造函数(Dart)。
+还有对于这种数据结构接触最多的便是迭代器和链式函数，可以理解为后现代语言都有的特性，使用起来方便简洁优雅。
+
+```rust 
+fn vec_loop(mut v: Vec<i32>) -> Vec<i32> {
+    for mut i in v.iter_mut() {
+        *i = *i * 2;
+    }
+    v
+}
+
+fn vec_map(v: &Vec<i32>) -> Vec<i32> {
+    v.iter().map(|num| num * 2).collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_vec_loop() {
+        let v: Vec<i32> = (1..).filter(|x| x % 2 == 0).take(5).collect();
+        let ans = vec_loop(v.clone());
+
+        assert_eq!(ans, v.iter().map(|x| x * 2).collect::<Vec<i32>>());
+    }
+
+    #[test]
+    fn test_vec_map() {
+        let v: Vec<i32> = (1..).filter(|x| x % 2 == 0).take(5).collect();
+        let ans = vec_map(&v);
+
+        assert_eq!(ans, v.iter().map(|x| x * 2).collect::<Vec<i32>>());
+    }
+}
+
+```
+
 ## clippy
 
 ### clippy1
