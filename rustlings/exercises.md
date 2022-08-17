@@ -66,6 +66,69 @@ mod tests {
 
 ```
 
+## structs
+
+毕竟不是面向对象了，不需要Object了，讲道理单纯是数据对象的话用个Map都可以装数据（js不就喜欢这么干），没必要搞个对象那么抽象复杂，此时感觉结构体错错有余，并且后续可以持续添加实现方法、关联函数等完全可以进化成类去使用，当然面向对象的类也不是仅此而已，这里先不提那么多。
+
+这里的结构体声明挺有意思的，就跟函数的不带命名参数命和带命名参数差不多，不过好像不能一起使用也就是： fun(a, b, c, { d, e, f}), 但不是一种东西也不能一起比较的。
+
+```rust
+struct ColorClassicStruct {
+    red: u8,
+    green: u8,
+    blue: u8,
+}
+
+struct ColorTupleStruct(u8, u8, u8);
+
+struct UnitLikeStruct();
+
+```
+
+小语法糖 （js中貌似也可以这样）
+命名参数赋值时，可以直接将定义相同变量名的变量塞进去当作赋值处理。
+同理例子中your_order中塞了order_template，对于未赋值的字段year、made_by_phone、made_by_email、item_number，直接从order_template的同名字段中去取。
+
+切记是两个点，三个点的是rest参数或者合并运算符，rust目前还没有抄过来？大概吧。
+
+```rust
+fn create_order_template() -> Order {
+    Order {
+        name: String::from("Bob"),
+        year: 2019,
+        made_by_phone: false,
+        made_by_mobile: false,
+        made_by_email: true,
+        item_number: 123,
+        count: 0,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn your_order() {
+        let order_template = create_order_template();
+        let made_by_mobile = false;
+        let your_order = Order{
+            name: "Hacker in Rust".to_string(),
+            count: 1,
+            made_by_mobile,
+            ..order_template
+        };
+        assert_eq!(your_order.name, "Hacker in Rust");
+        assert_eq!(your_order.year, order_template.year);
+        assert_eq!(your_order.made_by_phone, order_template.made_by_phone);
+        assert_eq!(your_order.made_by_mobile, order_template.made_by_mobile);
+        assert_eq!(your_order.made_by_email, order_template.made_by_email);
+        assert_eq!(your_order.item_number, order_template.item_number);
+        assert_eq!(your_order.count, 1);
+    }
+}
+```
+
 ## clippy
 
 ### clippy1
