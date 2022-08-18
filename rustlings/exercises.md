@@ -129,6 +129,39 @@ mod tests {
 }
 ```
 
+## strings
+
+Rust里 String可不是字符串，用双引号引起来的也不是。讲道理之前接触过宽窄字符就知道，字符串没那么简单，你写Dart、Js这种不太需要处理特殊的字符串也就只有String就够了。但对于Rust不一样，还是要细分一下的，但也要明白实际使用还是普通的字符串最多，这里先去了解最基础的字符串。
+
+大概有这么几种：
+String、str、&str、&String、Box<str>、Box<&str>
+需要弄清楚String、还有他们之间的隐式转换，刚开始还是要带上显示转换比较好，先熟悉他们的转化规则，再去使用隐式转换比较好，
+
+下面的代码先去稍微感受String和&str：
+```rust 
+
+fn string_slice(arg: &str) {
+    println!("{}", arg);
+}
+fn string(arg: String) {
+    println!("{}", arg);
+}
+
+fn main() {
+    string_slice("blue");
+    string("red".to_string());
+    string(String::from("hi"));
+    string("rust is fun!".to_owned());
+    string_slice("nice weather".into());
+    string(format!("Interpolation {}", "Station"));
+    string_slice(&String::from("abc")[0..1]);
+    string_slice("  hello there ".trim());
+    string("Happy Monday!".to_string().replace("Mon", "Tues"));
+    string("mY sHiFt KeY iS sTiCkY".to_lowercase());
+}
+
+```
+
 ## clippy
 
 ### clippy1
