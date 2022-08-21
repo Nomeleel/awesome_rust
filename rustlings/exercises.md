@@ -162,6 +162,24 @@ fn main() {
 
 ```
 
+## hasmaps
+
+key不能重复，想要重复请出门左转——> Vec<(K, V)>
+
+插值：insert
+如存在便覆盖
+
+取值：get
+返回Option 动动脚趾头都知道是这个类型
+
+不存在便插入：entry(key).or_insert(value)
+
+取所有key：map.keys()
+
+取所有value：map.values()
+
+长素：map.len()
+
 ## clippy
 
 ### clippy1
