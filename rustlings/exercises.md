@@ -162,6 +162,17 @@ fn main() {
 
 ```
 
+拼接字符串：
+
+```rust 
+
+let mut string = String::from(string);
+for _ in 0..5 {
+    string += "bar";
+}
+
+```
+
 ## hasmaps
 
 key不能重复，想要重复请出门左转——> Vec<(K, V)>
