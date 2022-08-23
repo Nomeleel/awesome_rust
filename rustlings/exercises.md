@@ -26,6 +26,30 @@ let messages = [
 将其理解为空安全语言中的Nullable\<T\>不过分吧.
 只是你叫Some和None我是没有想到的🤔
 
+ref
+
+还好之前在C#见过这玩意，可以稍微在Rust这边映射下，不出意外这个语法糖的功能差不多，不过貌似只能创建结构体、元组字段的引用。
+暂不深挖，不求甚解，先记下来。
+
+```rust
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let y: Option<Point> = Some(Point { x: 100, y: 200 });
+
+    match y {
+        Some(ref p) => println!("Co-ordinates are {},{} ", p.x, p.y),
+        _ => println!("no match"),
+    }
+    y; // Fix without deleting this line.
+}
+
+```
+
 ## vecs
 
 从最开始接触编程的时候就遇到了，Array和Vector，一度认为这两个结构长度可变用Vector不可变用Array。后来写C#和Java的时候没有Vector了，而是以List代替了。再后来就是写Js、Dart，对于之前的语言数据结构少了很多，这时候只有List了，世界顿时清净了很多，当然也会提供List的不可变长度的构造函数(Dart)。
