@@ -50,6 +50,49 @@ fn main() {
 
 ```
 
+## results
+
+Result<OK, ERR> 是Option关注于出现错误处理的升级版。
+
+如果Result是Err，使用上经常搭配一下链式操作
+
+### expect 
+
+类似于断言，出现Err就panics出自定义消息
+
+### unwrap
+
+直接拆箱取值，仅在保证一定不为Err时才可使用。否则panics满天飞
+
+### unwrap_or 
+
+出现Err就返回提供的自定义值
+
+### unwrap_or_default 
+
+出现Err就返回提供的自定义值类型 T 的默认值 (必须实现 Default trait)
+
+### unwrap_or_else 
+
+出现Err就返回自定义闭包函数执行后的值
+
+### ？
+
+语法糖，出现Err就停止执行并将其Err抛出
+
+```rust
+
+let a: A = getA(a)?;
+
+// 等价于以下
+
+let a: A = match getA(a) {
+  Ok(a) => A,
+  Err(e) => return Err("Ab Ab Ab...."),
+};
+
+```
+
 ## vecs
 
 从最开始接触编程的时候就遇到了，Array和Vector，一度认为这两个结构长度可变用Vector不可变用Array。后来写C#和Java的时候没有Vector了，而是以List代替了。再后来就是写Js、Dart，对于之前的语言数据结构少了很多，这时候只有List了，世界顿时清净了很多，当然也会提供List的不可变长度的构造函数(Dart)。
