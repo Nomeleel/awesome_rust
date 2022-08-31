@@ -80,6 +80,10 @@ Result<OK, ERR> 是Option关注于出现错误处理的升级版。
 
 语法糖，出现Err就停止执行并将其Err抛出
 
+### map_err
+
+将Err传入闭包函数，映射为其他对象
+
 ```rust
 
 let a: A = getA(a)?;
@@ -256,7 +260,71 @@ key不能重复，想要重复请出门左转——> Vec<(K, V)>
 
 取所有value：map.values()
 
-长素：map.len()
+长度：map.len()
+
+## traits
+
+介个不就是minix吗 哈哈哈，需要啥就混入啥，然后就成为了啥，并且可以混入多个，很是灵活。
+
+用imp T 表示类型 / 用泛型进行约束类型
+
+```rust 
+
+pub trait Licensed {
+    fn licensing_info(&self) -> String {
+        "some information".to_string()
+    }
+}
+
+struct SomeSoftware {}
+
+struct OtherSoftware {}
+
+impl Licensed for SomeSoftware {}
+impl Licensed for OtherSoftware {}
+
+fn compare_license_types2(software: impl Licensed, software_two: impl Licensed) -> bool {
+    software.licensing_info() == software_two.licensing_info()
+}
+
+fn compare_license_types<S, O>(software: S, software_two: O) -> bool where S : Licensed, O: Licensed {
+  software.licensing_info() == software_two.licensing_info()
+}
+
+```
+
+实现多个trait 用 + 号连接
+
+```rust 
+
+pub trait SomeTrait {
+    fn some_function(&self) -> bool {
+        true
+    }
+}
+
+pub trait OtherTrait {
+    fn other_function(&self) -> bool {
+        true
+    }
+}
+
+struct SomeStruct {
+    name: String,
+}
+
+impl SomeTrait for SomeStruct {}
+impl OtherTrait for SomeStruct {}
+
+fn some_func2(item: impl SomeTrait + OtherTrait) -> bool {
+    item.some_function() && item.other_function()
+}
+
+fn some_func<T>(item: T) -> bool where T : SomeTrait + OtherTrait {
+  item.some_function() && item.other_function()
+}
+
+```
 
 ## clippy
 
