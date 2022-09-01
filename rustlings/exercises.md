@@ -358,3 +358,48 @@ if let Some(x) = option {
 }
 
 ```
+
+## iterators
+
+拿到迭代器之后可以有next、map等一些链式操作，这里先去讨论怎么获取到迭代器。
+
+### into_iter
+
+返回的对应的值
+
+```rust
+
+fn list_of_results() -> Vec<Result<i32, DivisionError>> {
+    let numbers = vec![27, 297, 38502, 81];
+    numbers.into_iter().map(|n| divide(n, 27)).collect()
+}
+
+fn result_with_list() -> Result<Vec<i32>, DivisionError> {
+    let numbers = vec![27, 297, 38502, 81];
+    let division_results: Vec<i32> = numbers
+        .into_iter()
+        .map(|n| divide(n, 27).unwrap())
+        .collect();
+    Ok(division_results)
+}
+
+```
+
+### iter
+
+返回的是值的不可变引用
+
+```rust
+
+let my_fav_fruits = vec!["banana", "custard apple", "avocado", "peach", "raspberry"];
+
+let mut my_iterable_fav_fruits = my_fav_fruits.iter();
+
+assert_eq!(my_iterable_fav_fruits.next(), Some(&"banana"));
+assert_eq!(my_iterable_fav_fruits.next(), Some(&"custard apple"));
+assert_eq!(my_iterable_fav_fruits.next(), Some(&"avocado"));
+assert_eq!(my_iterable_fav_fruits.next(), Some(&"peach"));
+assert_eq!(my_iterable_fav_fruits.next(), Some(&"raspberry"));
+assert_eq!(my_iterable_fav_fruits.next(), None); 
+
+```
