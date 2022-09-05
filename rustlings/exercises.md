@@ -262,6 +262,18 @@ key不能重复，想要重复请出门左转——> Vec<(K, V)>
 
 长度：map.len()
 
+```rust
+
+fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
+    map.values().filter(|e| *e == &value).count()
+}
+
+fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
+    collection.into_iter().map(|e| count_iterator(e, value)).sum()
+}
+
+```
+
 ## traits
 
 介个不就是minix吗 哈哈哈，需要啥就混入啥，然后就成为了啥，并且可以混入多个，很是灵活。
